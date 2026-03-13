@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-ex
+  labels:
+    app: spring-ex
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-ex
+
+  template:
+    metadata:
+      labels:
+        app: spring-ex
+
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        fsGroup: 1001
+
+      containers:
+        - name: spring-ex
+          image: aruna451/spring-ex1:4.0
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 8080
+
+          # Inject all ConfigMap keys as environment variables
+          envFrom:
+            - configMapRef:
+                name: spring-ex1-config
+
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
+
+          volumeMounts:
+            - name: logs
+              mountPath: /app/logs
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 3
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            failureThreshold: 3
+
+          startupProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            failureThreshold: 30
+            periodSeconds: 10
+
+      volumes:
+        - name: logs
+          emptyDir: {}
+
+      restartPolicy: Always

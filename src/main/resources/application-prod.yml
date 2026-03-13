@@ -1,0 +1,3 @@
+spring-ex2:
+  api:
+    url: ${EXTERNAL_API_URL}

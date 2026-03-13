@@ -1,0 +1,8 @@
+- job_name: 'spring-ex1'
+  metrics_path: '/actuator/prometheus'
+  static_configs:
+    - targets: ['spring-ex-service.default.svc.cluster.local:80']
+- job_name: 'spring-ex2'
+  metrics_path: '/actuator/prometheus'
+  static_configs:
+    - targets: ['spring-ex2-service.default.svc.cluster.local:818']
