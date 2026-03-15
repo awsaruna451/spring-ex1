@@ -11,3 +11,11 @@ management:
     health:
       probes:
         enabled: true
+    prometheus:                         # ← ADD: explicitly enable prometheus endpoint
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true                   # ← ADD: enable prometheus registry export
+    tags:
+      application: ${spring.application.name}   # ← ADD: tag all metrics with app name

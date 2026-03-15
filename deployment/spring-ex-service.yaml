@@ -2,6 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: spring-ex-service
+  annotations:                                        # ← ADD THIS BLOCK
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/actuator/prometheus"
+    prometheus.io/port: "8080"
 spec:
   selector:
     app: spring-ex
