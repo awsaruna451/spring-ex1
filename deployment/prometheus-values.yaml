@@ -1,6 +1,0 @@
-server:
-  additionalScrapeConfigs:
-    name: scrape-configs
-    key: scrape-configs.yaml
-  global:
-    scrape_interval: 15s

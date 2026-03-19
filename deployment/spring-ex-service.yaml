@@ -6,6 +6,7 @@ metadata:
     prometheus.io/scrape: "true"
     prometheus.io/path: "/actuator/prometheus"
     prometheus.io/port: "8080"
+    prometheus.io/job: "spring-ex1"
 spec:
   selector:
     app: spring-ex

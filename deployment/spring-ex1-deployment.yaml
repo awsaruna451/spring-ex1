@@ -15,6 +15,11 @@ spec:
     metadata:
       labels:
         app: spring-ex
+      annotations:                                  # ← ADDED
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: "8080"
+        prometheus.io/job: "spring-ex1"
 
     spec:
       securityContext:
@@ -24,13 +29,12 @@ spec:
 
       containers:
         - name: spring-ex
-          image: aruna451/spring-ex1:4.0
+          image: aruna451/spring-ex1:6.0
           imagePullPolicy: Always
 
           ports:
             - containerPort: 8080
 
-          # Inject all ConfigMap keys as environment variables
           envFrom:
             - configMapRef:
                 name: spring-ex1-config
@@ -42,10 +46,6 @@ spec:
             limits:
               memory: "1024Mi"
               cpu: "500m"
-
-          volumeMounts:
-            - name: logs
-              mountPath: /app/logs
 
           readinessProbe:
             httpGet:
@@ -69,9 +69,5 @@ spec:
               port: 8080
             failureThreshold: 30
             periodSeconds: 10
-
-      volumes:
-        - name: logs
-          emptyDir: {}
 
       restartPolicy: Always

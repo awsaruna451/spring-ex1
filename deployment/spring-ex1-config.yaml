@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: spring-ex1-config
 data:
-  EXTERNAL_API_URL: "http://external-ex2-service:8181/api/v1/hi"
+  EXTERNAL_API_URL: "http://spring-ex2-service:8181/api/v1/hi"
   SPRING_PROFILES_ACTIVE: "dev"
   JAVA_OPTS: "-Xms512m -Xmx1024m"
